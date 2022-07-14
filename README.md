@@ -1,10 +1,9 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+<p align="center"><a href="https://thatsoundboard.com" target="_blank"><img src="https://raw.githubusercontent.com/CoasterFreakDE/soundboard-dashboard/develop/public/default-monochrome-white.svg" width="400"></a></p>
 
 <p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+<a href="https://github.com/CoasterFreakDE/soundboard-dashboard/actions/workflows/build.yml" target="_blank">
+<img src="https://github.com/CoasterFreakDE/soundboard-dashboard/actions/workflows/build.yml/badge.svg?branch=main" width="400">
+</a>
 </p>
 
 ## About Laravel
