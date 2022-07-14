@@ -47,6 +47,13 @@ class UserService {
     }
 
     /**
+     * @return string
+     */
+    public function getSoundLink(): string {
+        return config()->get('soundboard.cdn.url', 'https://cdn.devsky.one/soundboard/users/');
+    }
+
+    /**
      * Keeps the sound cache up-to-date with the latest results from the CDN.
      *
      * @return array
