@@ -50,7 +50,6 @@ jobs:
           REF: ${{ github.ref }}
         run: |
           cat CHANGELOG.md > ./RELEASE_CHANGELOG
-          echo ::set-output name=version_name::`sed -nr "s/^## (${REF:10} .*)$/\1/p" CHANGELOG.md`
 
       - name: Create checksum and add to changelog
         run: |
@@ -65,7 +64,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ github.ref }}
-          release_name: ${{ steps.extract_changelog.outputs.version_name }}-${{ steps.date.outputs.date }}
+          release_name: ${{ github.ref }}
           body_path: ./RELEASE_CHANGELOG
           draft: false
           prerelease: ${{ contains(github.ref, 'beta') || contains(github.ref, 'alpha') }}
