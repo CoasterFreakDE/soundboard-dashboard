@@ -124,10 +124,6 @@
                 // Toggle the mobile menu
                 document.getElementById("mobile-menu").classList.toggle("hidden");
             }
-
-            funtion toggleProfile() {
-
-            }
         </script>
     </body>
 </html>
