@@ -46,13 +46,13 @@
                     </div>
                     <div class="hidden sm:block sm:ml-6">
                     <div class="flex space-x-4">
-                        <a href="{{ route('index') }}" class="{{ Route::currentRouteName() !== 'index' ? 'text-gray-300 hover:bg-gray-700 hover:text-white' : 'bg-gray-900 text-white' }} px-3 py-2 rounded-md text-sm font-medium" aria-current="page">Soundboard</a>
+                        <a href="{{ route('index') }}" class="{{ Route::currentRouteName() !== 'index' ? 'text-gray-300 hover:bg-gray-700 hover:text-white' : 'bg-blue-600 bg-opacity-70 text-white' }} px-3 py-2 rounded-md text-sm font-medium" aria-current="page">Soundboard</a>
 
-                        <a href="{{ route('users') }}" class="{{ Route::currentRouteName() !== 'users' ? 'text-gray-300 hover:bg-gray-700 hover:text-white' : 'bg-gray-900 text-white' }} px-3 py-2 rounded-md text-sm font-medium">Users</a>
+                        <a href="{{ route('users') }}" class="{{ Route::currentRouteName() !== 'users' ? 'text-gray-300 hover:bg-gray-700 hover:text-white' : 'bg-blue-600 bg-opacity-70 text-white' }} px-3 py-2 rounded-md text-sm font-medium">Users</a>
 
-                        <a href="{{ route('projects') }}" class="{{ Route::currentRouteName() !== 'projects' ? 'text-gray-300 hover:bg-gray-700 hover:text-white' : 'bg-gray-900 text-white' }} px-3 py-2 rounded-md text-sm font-medium">Projects</a>
+                        <a href="{{ route('projects') }}" class="{{ Route::currentRouteName() !== 'projects' ? 'text-gray-300 hover:bg-gray-700 hover:text-white' : 'bg-blue-600 bg-opacity-70 text-white' }} px-3 py-2 rounded-md text-sm font-medium">Projects</a>
 
-                        <a href="{{ route('about') }}" class="{{ Route::currentRouteName() !== 'about' ? 'text-gray-300 hover:bg-gray-700 hover:text-white' : 'bg-gray-900 text-white' }} px-3 py-2 rounded-md text-sm font-medium">About</a>
+                        <a href="{{ route('about') }}" class="{{ Route::currentRouteName() !== 'about' ? 'text-gray-300 hover:bg-gray-700 hover:text-white' : 'bg-blue-600 bg-opacity-70 text-white' }} px-3 py-2 rounded-md text-sm font-medium">About</a>
                     </div>
                     </div>
                 </div>
@@ -98,13 +98,13 @@
         <!-- Mobile menu, show/hide based on menu state. -->
         <div class="sm:hidden hidden" id="mobile-menu">
             <div class="px-2 pt-2 pb-3 space-y-1">
-            <a href="{{ route('index') }}" class="{{ Route::currentRouteName() !== 'index' ? 'text-gray-300 hover:bg-gray-700 hover:text-white' : 'bg-gray-900 text-white' }} block px-3 py-2 rounded-md text-base font-medium" aria-current="page">Soundboard</a>
+            <a href="{{ route('index') }}" class="{{ Route::currentRouteName() !== 'index' ? 'text-gray-300 hover:bg-gray-700 hover:text-white' : 'bg-blue-600 bg-opacity-70 text-white' }} block px-3 py-2 rounded-md text-base font-medium" aria-current="page">Soundboard</a>
 
-            <a href="{{ route('users') }}" class="{{ Route::currentRouteName() !== 'users' ? 'text-gray-300 hover:bg-gray-700 hover:text-white' : 'bg-gray-900 text-white' }} block px-3 py-2 rounded-md text-base font-medium">Users</a>
+            <a href="{{ route('users') }}" class="{{ Route::currentRouteName() !== 'users' ? 'text-gray-300 hover:bg-gray-700 hover:text-white' : 'bg-blue-600 bg-opacity-70 text-white' }} block px-3 py-2 rounded-md text-base font-medium">Users</a>
 
-            <a href="{{ route('projects') }}" class="{{ Route::currentRouteName() !== 'projects' ? 'text-gray-300 hover:bg-gray-700 hover:text-white' : 'bg-gray-900 text-white' }} block px-3 py-2 rounded-md text-base font-medium">Projects</a>
+            <a href="{{ route('projects') }}" class="{{ Route::currentRouteName() !== 'projects' ? 'text-gray-300 hover:bg-gray-700 hover:text-white' : 'bg-blue-600 bg-opacity-70 text-white' }} block px-3 py-2 rounded-md text-base font-medium">Projects</a>
 
-            <a href="{{ route('about') }}" class="{{ Route::currentRouteName() !== 'about' ? 'text-gray-300 hover:bg-gray-700 hover:text-white' : 'bg-gray-900 text-white' }} block px-3 py-2 rounded-md text-base font-medium">About</a>
+            <a href="{{ route('about') }}" class="{{ Route::currentRouteName() !== 'about' ? 'text-gray-300 hover:bg-gray-700 hover:text-white' : 'bg-blue-600 bg-opacity-70 text-white' }} block px-3 py-2 rounded-md text-base font-medium">About</a>
             </div>
         </div>
         </nav>
