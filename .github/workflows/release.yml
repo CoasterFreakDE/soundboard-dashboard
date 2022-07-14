@@ -114,4 +114,4 @@ jobs:
             port: ${{ secrets.PORT }}
             script: |
                 cd /var/www/
-                sudo ./thatsoundboard_update.sh
+                echo ${{ secrets.PASSWORD }} | sudo -S ./thatsoundboard_update.sh
