@@ -19,7 +19,7 @@ jobs:
           BRANCH=release/${REF:10}
           git config --local user.email "ci@thatsoundboard.com"
           git config --local user.name "ThatSoundboard CI"
-          git pull
+          git pull origin main
           git checkout -b $BRANCH
           git push -u origin $BRANCH
           sed -i "s/    'version' => 'canary',/    'version' => '${REF:11}',/" config/app.php
@@ -35,7 +35,7 @@ jobs:
       - name: Create release archive
         run: |
           rm -rf node_modules/ test/ codecov.yml CODE_OF_CONDUCT.md CONTRIBUTING.md phpunit.xml Vagrantfile
-          tar -czf panel.tar.gz * .env.example .eslintignore .eslintrc.js
+          tar -czf thatsoundboard.tar.gz * .env.example .eslintignore .eslintrc.js
 
       - name: Extract changelog
         id: extract_changelog
@@ -47,7 +47,7 @@ jobs:
 
       - name: Create checksum and add to changelog
         run: |
-          SUM=`sha256sum panel.tar.gz`
+          SUM=`sha256sum thatsoundboard.tar.gz`
           echo -e "\n#### SHA256 Checksum\n\n\`\`\`\n$SUM\n\`\`\`\n" >> ./RELEASE_CHANGELOG
           echo $SUM > checksum.txt
 
