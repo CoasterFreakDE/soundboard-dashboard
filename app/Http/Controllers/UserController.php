@@ -25,7 +25,8 @@ class UserController extends Controller {
 
     public function index() {
         return view('index', [
-            'users' => $this->userService->getSoundData()
+            'users' => $this->userService->getSoundData(),
+            'soundLink' => $this->userService->getSoundLink(),
         ]);
     }
 
