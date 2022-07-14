@@ -36,7 +36,7 @@ jobs:
 
       - name: Create release archive
         run: |
-          rm -rf node_modules/ test/ codecov.yml CODE_OF_CONDUCT.md CONTRIBUTING.md phpunit.xml Vagrantfile
+          rm -rf node_modules/ test/ phpunit.xml
           tar -czf thatsoundboard.tar.gz * .env.example .eslintignore .eslintrc.js
 
       - name: Extract changelog
