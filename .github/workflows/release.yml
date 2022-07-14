@@ -49,7 +49,7 @@ jobs:
         env:
           REF: ${{ github.ref }}
         run: |
-          sed -n "/^## ${REF:10}/,/^## /{/^## /b;p}" CHANGELOG.md > ./RELEASE_CHANGELOG
+          cat CHANGELOG.md > ./RELEASE_CHANGELOG
           echo ::set-output name=version_name::`sed -nr "s/^## (${REF:10} .*)$/\1/p" CHANGELOG.md`
 
       - name: Create checksum and add to changelog
