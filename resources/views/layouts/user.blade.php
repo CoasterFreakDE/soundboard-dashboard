@@ -9,9 +9,11 @@
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
         <link rel="manifest" href="/site.webmanifest">
-        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-        <meta name="msapplication-TileColor" content="#da532c">
-        <meta name="theme-color" content="#343a40">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#288ee5">
+        <meta name="apple-mobile-web-app-title" content="ThatSoundboard">
+        <meta name="application-name" content="ThatSoundboard">
+        <meta name="msapplication-TileColor" content="#d5d5d5">
+        <meta name="theme-color" content="#d5d5d5">
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -40,7 +42,7 @@
                 <div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
                     <div class="flex-shrink-0 flex items-center">
                     <img class="block lg:hidden h-8 w-auto" src="favicon-32x32.png" alt="Soundboard">
-                    <img class="hidden lg:block h-8 w-auto" src="favicon-32x32.png" alt="Soundboard">
+                    <img class="hidden lg:block h-8 w-auto" src="default-monochrome-white.svg" alt="Soundboard">
                     </div>
                     <div class="hidden sm:block sm:ml-6">
                     <div class="flex space-x-4">
@@ -55,7 +57,7 @@
                     </div>
                 </div>
                 <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                    <button type="button" class="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+                    <button type="button" class="p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                     <span class="sr-only">View notifications</span>
                     <!-- Heroicon name: outline/bell -->
                     <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
@@ -124,7 +126,7 @@
             }
 
             funtion toggleProfile() {
-                
+
             }
         </script>
     </body>
