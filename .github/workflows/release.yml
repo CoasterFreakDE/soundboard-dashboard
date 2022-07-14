@@ -37,7 +37,7 @@ jobs:
       - name: Create release archive
         run: |
           rm -rf node_modules/ test/ phpunit.xml
-          tar -czf thatsoundboard.tar.gz * .env.example .eslintignore .eslintrc.js
+          tar -czf thatsoundboard.tar.gz * .env.example
 
       - name: Extract changelog
         id: extract_changelog
