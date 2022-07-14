@@ -11,20 +11,32 @@ jobs:
         with:
           node-version: '16.x'
 
-      - name: Get current date
-        id: date
-        run: echo "::set-output name=date::$(date +'%m-%d-%s')"
+      - name: Bump version and push tag
+        id: bump_version
+        uses: anothrNick/github-tag-action@1.36.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTION_TOKEN }}
+          WITH_V: true
+
+      - uses: actions-ecosystem/action-get-latest-tag@v1
+        id: get-latest-tag
+
+      - uses: rickstaa/action-create-tag@v1
+        with:
+          tag: ${{ steps.bump_version.outputs.tag }}
+          message: "Automatically generated tag"
+          force_push_tag: true
 
       - name: Create release branch and bump version
         env:
           REF: ${{ github.ref }}
         run: |
-          BRANCH=release${REF:10}-${{ steps.date.outputs.date }}
+          BRANCH=release-${{ steps.bump_version.outputs.tag }}
           git config --local user.email "ci@thatsoundboard.com"
           git config --local user.name "ThatSoundboard CI"
           git checkout -b $BRANCH
           git push -u origin $BRANCH
-          sed -i "s/    'version' => 'canary',/    'version' => '${REF:11}',/" config/app.php
+          sed -i "s/    'version' => 'canary',/    'version' => '${{ steps.bump_version.outputs.tag }}',/" config/app.php
           git add config/app.php
           git commit -m "bump version for release"
           git push
@@ -64,8 +76,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REF: ${{ github.ref }}
         with:
-          tag_name: ${REF:11}
-          release_name: ${REF:11}
+          tag_name: ${{ steps.bump_version.outputs.tag }}
+          release_name: ${{ steps.bump_version.outputs.tag }}
           body_path: ./RELEASE_CHANGELOG
           draft: false
           prerelease: ${{ contains(github.ref, 'beta') || contains(github.ref, 'alpha') }}
