@@ -39,6 +39,11 @@ jobs:
           rm -rf node_modules/ test/ phpunit.xml
           tar -czf thatsoundboard.tar.gz * .env.example
 
+      - name: Generate changelog
+        uses: charmixer/auto-changelog-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Extract changelog
         id: extract_changelog
         env:
