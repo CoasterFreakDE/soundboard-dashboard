@@ -19,7 +19,6 @@ jobs:
           BRANCH=release/${REF:10}
           git config --local user.email "ci@thatsoundboard.com"
           git config --local user.name "ThatSoundboard CI"
-          git pull origin main
           git checkout -b $BRANCH
           git push -u origin $BRANCH
           sed -i "s/    'version' => 'canary',/    'version' => '${REF:11}',/" config/app.php
