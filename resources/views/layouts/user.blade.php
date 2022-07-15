@@ -22,9 +22,10 @@
         <!-- Resources -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdn.jsdelivr.net/npm/flawcralib@1.0.8/dist/main.js"></script>
     </head>
 
-    <body class="antialiased dark">
+    <body class="antialiased">
     <nav class="bg-gradient-to-br from-[#017de8] to-[#4e9ee2]">
         <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
             <div class="relative flex items-center justify-between h-16">
@@ -165,15 +166,37 @@
 
 
         <script>
-            const copyToClipboard = str => {
-            if (navigator && navigator.clipboard && navigator.clipboard.writeText)
-                return navigator.clipboard.writeText(str);
-                return Promise.reject('The Clipboard API is not available.');
-            };
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                changeTheme("dark");
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+                const newColorScheme = e.matches ? "dark" : "light";
+                changeTheme(newColorScheme);
+            });
+
+            function changeTheme(theme) {
+                switch (theme)
+                {
+                    case "dark":
+                        document.body.classList.add("dark")
+                        break;
+                    case "light":
+                        document.body.classList.remove("dark")
+                        break;
+                }
+            }
+
+            document.addEventListener('scroll', event => {
+                document.getElementById('soundmenu').classList.add('hidden');
+            });
+
+            window.addEventListener('resize', event => {
+                document.getElementById('soundmenu').classList.add('hidden');
+            });
 
             document.addEventListener('contextmenu', event => {
                 var path = event.path || (event.composedPath && event.composedPath());
-                // Test if event.path contains an li element with an id that starts with sound-
+                // Test if event.path contains a li element with an id that starts with sound-
                 if (path.some(element => element.id && element.id.startsWith('sound-'))) {
                     event.preventDefault();
                     // Get element of path that starts with sound-
@@ -189,12 +212,12 @@
 
                     // Add the share link to the menu
                     document.getElementById('shareButton').onclick = () => {
-                        copyToClipboard(soundUrl);
+                        FlawCraLIB.copyTextToClipboard(soundUrl);
                         showNotification('Copied to clipboard!', 'The share link has been copied to your clipboard.');	// Show notification
                     };
 
-                    document.getElementById('soundmenu').style.top = (event.pageY - 40) + 'px';
-                    document.getElementById('soundmenu').style.left = event.pageX + 'px';
+                    document.getElementById('soundmenu').style.top = (event.clientY - 40) + 'px';
+                    document.getElementById('soundmenu').style.left = event.clientX + 'px';
                     document.getElementById('soundmenu').classList.remove('hidden');
                 } else {
                     document.getElementById('soundmenu').classList.add('hidden');

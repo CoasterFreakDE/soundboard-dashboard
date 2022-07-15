@@ -5,7 +5,7 @@
 
 @section('content')
 <div class="p-20">
-    <li class="col-span-1 bg-white dark:bg-slate-700 rounded-lg shadow divide-y divide-gray-200 dark:divide-gray-900">
+    <div class="col-span-1 bg-white dark:bg-slate-700 rounded-lg shadow divide-y divide-gray-200 dark:divide-gray-900">
         <div class="w-full flex items-center justify-between p-6 space-x-6">
             <div class="flex-1 truncate">
                 <div class="flex items-center space-x-3">
@@ -30,6 +30,6 @@
                 @endforeach
             </ul>
         </div>
-    </li>
+    </div>
 </div>
 @endsection
