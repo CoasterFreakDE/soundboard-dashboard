@@ -6,6 +6,8 @@ use GuzzleHttp\Client;
 use Carbon\CarbonImmutable;
 use Illuminate\Contracts\Cache\Repository as CacheRepository;
 use App\Models\SoundUser;
+use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Support\Arr;
 
 class UserService {
 
@@ -47,6 +49,17 @@ class UserService {
     }
 
     /**
+     * @return array
+     */
+    public function getSoundDataOfUser($userid): SoundUser {
+        $found = Arr::where(self::$result, function ($value, $key) use ($userid) {
+            return $value->id == $userid;
+        });
+        $user = Arr::first($found) ?? null;
+        return $user;
+    }
+
+    /**
      * @return string
      */
     public function getSoundLink(): string {
@@ -72,7 +85,7 @@ class UserService {
                     return $users;
                 }
 
-            } catch (Exception $exception) {
+            } catch (GuzzleException $exception) {
                 return [];
             }
         });
@@ -99,7 +112,7 @@ class UserService {
                         $response = $this->client->request('GET', config()->get('soundboard.cdn.url', 'https://cdn.devsky.one/soundboard/users') . '/?id=' . $userId, ['verify' => false]);
                         $jsonSounds = json_decode($response->getBody(), true);
                         $soundUser->setSounds($jsonSounds);
-                    } catch (Exception $exception) {
+                    } catch (GuzzleException $exception) {
                         $soundUser->setSounds([]);
                     }
 
@@ -107,7 +120,7 @@ class UserService {
                     return $soundUser;
                 }
 
-            } catch (Exception $exception) {
+            } catch (GuzzleException $exception) {
                 return new SoundUser($userId, $soundCount);
             }
         });

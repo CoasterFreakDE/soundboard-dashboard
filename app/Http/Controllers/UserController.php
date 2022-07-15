@@ -31,8 +31,15 @@ class UserController extends Controller {
     }
 
     public function users() {
-        return view('users', [
+        return view('users.users', [
             'users' => $this->userService->getSoundData()
+        ]);
+    }
+
+    public function user($id) {
+        return view('users.view', [
+            'user' => $this->userService->getSoundDataOfUser($id),
+            'soundLink' => $this->userService->getSoundLink(),
         ]);
     }
 

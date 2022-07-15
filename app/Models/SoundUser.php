@@ -10,6 +10,11 @@ class SoundUser {
 
     public $avatarUrl;
 
+    /**
+     * Rank on the website
+     */
+    public $rank;
+
     public $count;
 
     public $sounds;
@@ -19,6 +24,7 @@ class SoundUser {
      */
     public function __construct(string $id, int $count) {
         $this->id = $id;
+        $this->rank = 'User';
         $this->count = $count;
         $this->sounds = [];
     }
