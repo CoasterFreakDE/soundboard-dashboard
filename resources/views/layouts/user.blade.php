@@ -25,7 +25,7 @@
         <script src="https://cdn.jsdelivr.net/npm/flawcralib@1.0.8/dist/main.js"></script>
     </head>
 
-    <body class="antialiased dark">
+    <body class="antialiased">
     <nav class="bg-gradient-to-br from-[#017de8] to-[#4e9ee2]">
         <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
             <div class="relative flex items-center justify-between h-16">
@@ -166,11 +166,26 @@
 
 
         <script>
-            const copyToClipboard = str => {
-            if (navigator && navigator.clipboard && navigator.clipboard.writeText)
-                return navigator.clipboard.writeText(str);
-                return Promise.reject('The Clipboard API is not available.');
-            };
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                changeTheme("dark");
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+                const newColorScheme = e.matches ? "dark" : "light";
+                changeTheme(newColorScheme);
+            });
+
+            function changeTheme(theme) {
+                switch (theme)
+                {
+                    case "dark":
+                        document.body.classList.add("dark")
+                        break;
+                    case "light":
+                        document.body.classList.remove("dark")
+                        break;
+                }
+            }
+
             document.addEventListener('scroll', event => {
                 document.getElementById('soundmenu').classList.add('hidden');
             });
