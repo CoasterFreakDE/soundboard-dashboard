@@ -21,6 +21,7 @@
 
         <!-- Resources -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     </head>
 
     <body class="antialiased dark">
@@ -41,8 +42,8 @@
                 </div>
                 <div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
                     <div class="flex-shrink-0 flex items-center">
-                    <img class="block lg:hidden h-8 w-auto" src="/favicon-32x32.png" alt="Soundboard">
-                    <img class="hidden lg:block h-8 w-auto" src="/default-monochrome-white.svg" alt="Soundboard">
+                    <img class="block lg:hidden h-8 w-auto cursor-pointer" src="/favicon-32x32.png" alt="Soundboard" onclick="window.location='https://thatsoundboard.com'" draggable="false">
+                    <img class="hidden lg:block h-8 w-auto cursor-pointer" src="/default-monochrome-white.svg" alt="Soundboard" onclick="window.location='https://thatsoundboard.com'" draggable="false">
                     </div>
                     <div class="hidden sm:block sm:ml-6">
                     <div class="flex space-x-4">
@@ -111,7 +112,117 @@
         <div id="app">
             @yield('content')
         </div>
+
+
+        <!-- Global notification live region, render this permanently at the end of the document -->
+        <div aria-live="assertive" class="fixed inset-0 flex items-end px-4 py-6 pointer-events-none sm:p-6 sm:items-start">
+        <div class="w-full flex flex-col items-center space-y-4 sm:items-end">
+            <!--
+            Notification panel, dynamically insert this into the live region when it needs to be displayed
+
+            Entering: "transform ease-out duration-300 transition"
+                From: "translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
+                To: "translate-y-0 opacity-100 sm:translate-x-0"
+            Leaving: "transition ease-in duration-100"
+                From: "opacity-100"
+                To: "opacity-0"
+            -->
+            <div id="notification" class="max-w-sm w-full bg-white shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2">
+            <div class="p-4">
+                <div class="flex items-start">
+                    <div class="flex-shrink-0">
+                        <!-- Heroicon name: outline/check-circle -->
+                        <svg class="h-6 w-6 text-green-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <div class="ml-3 w-0 flex-1 pt-0.5">
+                        <p id="notification-title" class="text-sm font-medium text-gray-900">Successfully saved!</p>
+                        <p id="notification-message" class="mt-1 text-sm text-gray-500">Anyone with a link can now view this file.</p>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+
+
+        <!-- Tooltip / Interaction menu -->
+        <menu type="context" id="soundmenu" class="hidden fixed top-[30px] left-[223px]">
+            <div class="mx-auto container max-w-[228px] bg-white rounded">
+                <nav class="space-y-1" aria-label="Actions">
+                    <a href="#" id="shareButton" class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 flex items-center px-3 py-2 text-sm font-medium rounded-md">
+                    <span class="truncate"><i class="fa-solid fa-share"></i> Share </span>
+                    </a>
+                </nav>
+
+                <svg class="absolute z-10  bottom-[-8px] " width="16" height="10" viewBox="0 0 16 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8 10L0 0L16 1.41326e-06L8 10Z" fill="white" />
+                </svg>
+            </div>
+        </menu>
+
+
+
         <script>
+            const copyToClipboard = str => {
+            if (navigator && navigator.clipboard && navigator.clipboard.writeText)
+                return navigator.clipboard.writeText(str);
+                return Promise.reject('The Clipboard API is not available.');
+            };
+
+            document.addEventListener('contextmenu', event => {
+                // Test if event.path contains an li element with an id that starts with sound-
+                if (event.path.some(element => element.id && element.id.startsWith('sound-'))) {
+                    event.preventDefault();
+                    // Get element of event.path that starts with sound-
+                    const element = event.path.find(element => element.id && element.id.startsWith('sound-'));
+                    // Split id of element into array
+                    const id = element.id.split('-');
+                    // Get userid from array
+                    const userid = id[1];
+                    // Get sound name from array
+                    const sound = id[2];
+                    // Build url for sound
+                    const soundUrl = '{{ $soundLink }}/' + userid + '/' + sound;
+
+                    // Add the share link to the menu
+                    document.getElementById('shareButton').onclick = () => {
+                        copyToClipboard(soundUrl);
+                        showNotification('Copied to clipboard!', 'The share link has been copied to your clipboard.');	// Show notification
+                    };
+
+                    document.getElementById('soundmenu').style.top = (event.pageY - 40) + 'px';
+                    document.getElementById('soundmenu').style.left = event.pageX + 'px';
+                    document.getElementById('soundmenu').classList.remove('hidden');
+                } else {
+                    document.getElementById('soundmenu').classList.add('hidden');
+                }
+            });
+
+            document.addEventListener('click', event => {
+                if (event.target.id !== 'soundmenu') {
+                    document.getElementById('soundmenu').classList.add('hidden');
+                }
+            });
+
+            function showNotification(title, message) {
+                document.getElementById('notification-title').innerText = title;
+                document.getElementById('notification-message').innerText = message;
+
+                var notification = document.getElementById('notification');
+                notification.classList.remove('transition', 'ease-in', 'duration-100');
+                notification.classList.add('transition', 'ease-out', 'duration-300');
+                notification.classList.remove('translate-y-2', 'opacity-0', 'sm:translate-y-0', 'sm:translate-x-2');
+                notification.classList.add('translate-y-0', 'opacity-100', 'sm:translate-x-0');
+                setTimeout(function() {
+                    notification.classList.remove('transition', 'ease-out', 'duration-300');
+                    notification.classList.add('transition', 'ease-in', 'duration-100');
+                    notification.classList.remove('translate-y-0', 'opacity-100', 'sm:translate-x-0');
+                    notification.classList.add('translate-y-2', 'opacity-0', 'sm:translate-y-0', 'sm:translate-x-2');
+                }, 1500);
+            }
+
             function toggleMenu() {
                 // Toggle the menu icon closed
                 document.getElementById("menu-icon-closed").classList.toggle("hidden");
@@ -124,6 +235,11 @@
                 // Toggle the mobile menu
                 document.getElementById("mobile-menu").classList.toggle("hidden");
             }
+            document.addEventListener('contextmenu', event => event.preventDefault());
+
+
+
+            
         </script>
     </body>
 </html>
