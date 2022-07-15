@@ -180,7 +180,7 @@
 
             document.addEventListener('contextmenu', event => {
                 var path = event.path || (event.composedPath && event.composedPath());
-                // Test if event.path contains an li element with an id that starts with sound-
+                // Test if event.path contains a li element with an id that starts with sound-
                 if (path.some(element => element.id && element.id.startsWith('sound-'))) {
                     event.preventDefault();
                     // Get element of path that starts with sound-
