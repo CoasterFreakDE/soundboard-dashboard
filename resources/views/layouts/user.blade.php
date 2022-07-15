@@ -170,6 +170,13 @@
                 return navigator.clipboard.writeText(str);
                 return Promise.reject('The Clipboard API is not available.');
             };
+            document.addEventListener('scroll', event => {
+                document.getElementById('soundmenu').classList.add('hidden');
+            });
+
+            window.addEventListener('resize', event => {
+                document.getElementById('soundmenu').classList.add('hidden');
+            });
 
             document.addEventListener('contextmenu', event => {
                 var path = event.path || (event.composedPath && event.composedPath());
