@@ -172,11 +172,12 @@
             };
 
             document.addEventListener('contextmenu', event => {
+                var path = event.path || (event.composedPath && event.composedPath());
                 // Test if event.path contains an li element with an id that starts with sound-
-                if (event.path.some(element => element.id && element.id.startsWith('sound-'))) {
+                if (path.some(element => element.id && element.id.startsWith('sound-'))) {
                     event.preventDefault();
-                    // Get element of event.path that starts with sound-
-                    const element = event.path.find(element => element.id && element.id.startsWith('sound-'));
+                    // Get element of path that starts with sound-
+                    const element = path.find(element => element.id && element.id.startsWith('sound-'));
                     // Split id of element into array
                     const id = element.id.split('-');
                     // Get userid from array
