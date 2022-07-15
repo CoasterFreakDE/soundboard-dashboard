@@ -41,8 +41,8 @@
                 </div>
                 <div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
                     <div class="flex-shrink-0 flex items-center">
-                    <img class="block lg:hidden h-8 w-auto" src="favicon-32x32.png" alt="Soundboard">
-                    <img class="hidden lg:block h-8 w-auto" src="default-monochrome-white.svg" alt="Soundboard">
+                    <img class="block lg:hidden h-8 w-auto" src="/favicon-32x32.png" alt="Soundboard">
+                    <img class="hidden lg:block h-8 w-auto" src="/default-monochrome-white.svg" alt="Soundboard">
                     </div>
                     <div class="hidden sm:block sm:ml-6">
                     <div class="flex space-x-4">
