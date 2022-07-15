@@ -15,6 +15,13 @@ use App\Http\Controllers\UserController;
 */
 
 Route::get('/', [UserController::class, 'index'])->name('index');
-Route::get('/users', [UserController::class, 'users'])->name('users');
+
+
+Route::group(['prefix' => 'users'], function () {
+    Route::get('/', [UserController::class, 'users'])->name('users');
+    Route::get('/{id}', [UserController::class, 'user'])->name('user');
+});
+
+
 Route::get('/projects', [UserController::class, 'projects'])->name('projects');
 Route::get('/about', [UserController::class, 'about'])->name('about');
