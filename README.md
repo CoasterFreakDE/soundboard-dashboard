@@ -16,9 +16,9 @@ Each user can create a soundboard, add sounds to it and share them with friends.
 
 ## (Planned) Features
 - [x] Listen to sounds in the soundboard
+- [x] Share a sound with friends
 - [ ] Upload sounds
 - [ ] Create soundboards and share them with friends
-- [ ] Share a sound with friends
 - [ ] Create a sound from a youtube video
 - [ ] Ability to create private sounds / soundboards
 - [ ] Ability to create soundboards with a password

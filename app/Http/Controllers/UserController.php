@@ -32,7 +32,8 @@ class UserController extends Controller {
 
     public function users() {
         return view('users.users', [
-            'users' => $this->userService->getSoundData()
+            'users' => $this->userService->getSoundData(),
+            'soundLink' => $this->userService->getSoundLink(),
         ]);
     }
 
@@ -44,10 +45,14 @@ class UserController extends Controller {
     }
 
     public function projects() {
-        return view('projects');
+        return view('projects', [
+            'soundLink' => $this->userService->getSoundLink(),
+        ]);
     }
 
     public function about() {
-        return view('about');
+        return view('about', [
+            'soundLink' => $this->userService->getSoundLink(),
+        ]);
     }
 }
