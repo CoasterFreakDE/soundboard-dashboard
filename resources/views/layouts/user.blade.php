@@ -21,6 +21,7 @@
 
         <!-- Resources -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     </head>
 
     <body class="antialiased dark">
@@ -111,7 +112,59 @@
         <div id="app">
             @yield('content')
         </div>
+
+
+        <!-- Global notification live region, render this permanently at the end of the document -->
+        <div aria-live="assertive" class="fixed inset-0 flex items-end px-4 py-6 pointer-events-none sm:p-6 sm:items-start">
+        <div class="w-full flex flex-col items-center space-y-4 sm:items-end">
+            <!--
+            Notification panel, dynamically insert this into the live region when it needs to be displayed
+
+            Entering: "transform ease-out duration-300 transition"
+                From: "translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
+                To: "translate-y-0 opacity-100 sm:translate-x-0"
+            Leaving: "transition ease-in duration-100"
+                From: "opacity-100"
+                To: "opacity-0"
+            -->
+            <div id="notification" class="max-w-sm w-full bg-white shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2">
+            <div class="p-4">
+                <div class="flex items-start">
+                    <div class="flex-shrink-0">
+                        <!-- Heroicon name: outline/check-circle -->
+                        <svg class="h-6 w-6 text-green-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <div class="ml-3 w-0 flex-1 pt-0.5">
+                        <p id="notification-title" class="text-sm font-medium text-gray-900">Successfully saved!</p>
+                        <p id="notification-message" class="mt-1 text-sm text-gray-500">Anyone with a link can now view this file.</p>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+
+
         <script>
+            function showNotification(title, message) {
+                document.getElementById('notification-title').innerText = title;
+                document.getElementById('notification-message').innerText = message;
+
+                var notification = document.getElementById('notification');
+                notification.classList.remove('transition', 'ease-in', 'duration-100');
+                notification.classList.add('transition', 'ease-out', 'duration-300');
+                notification.classList.remove('translate-y-2', 'opacity-0', 'sm:translate-y-0', 'sm:translate-x-2');
+                notification.classList.add('translate-y-0', 'opacity-100', 'sm:translate-x-0');
+                setTimeout(function() {
+                    notification.classList.remove('transition', 'ease-out', 'duration-300');
+                    notification.classList.add('transition', 'ease-in', 'duration-100');
+                    notification.classList.remove('translate-y-0', 'opacity-100', 'sm:translate-x-0');
+                    notification.classList.add('translate-y-2', 'opacity-0', 'sm:translate-y-0', 'sm:translate-x-2');
+                }, 1500);
+            }
+
             function toggleMenu() {
                 // Toggle the menu icon closed
                 document.getElementById("menu-icon-closed").classList.toggle("hidden");
@@ -124,6 +177,11 @@
                 // Toggle the mobile menu
                 document.getElementById("mobile-menu").classList.toggle("hidden");
             }
+            document.addEventListener('contextmenu', event => event.preventDefault());
+
+
+
+            
         </script>
     </body>
 </html>
