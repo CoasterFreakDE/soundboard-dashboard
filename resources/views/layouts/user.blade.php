@@ -193,8 +193,8 @@
                         showNotification('Copied to clipboard!', 'The share link has been copied to your clipboard.');	// Show notification
                     };
 
-                    document.getElementById('soundmenu').style.top = (event.pageY - 40) + 'px';
-                    document.getElementById('soundmenu').style.left = event.pageX + 'px';
+                    document.getElementById('soundmenu').style.top = (event.clientY - 40) + 'px';
+                    document.getElementById('soundmenu').style.left = event.clientX + 'px';
                     document.getElementById('soundmenu').classList.remove('hidden');
                 } else {
                     document.getElementById('soundmenu').classList.add('hidden');
