@@ -42,8 +42,8 @@
                 </div>
                 <div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
                     <div class="flex-shrink-0 flex items-center">
-                    <img class="block lg:hidden h-8 w-auto" src="/favicon-32x32.png" alt="Soundboard">
-                    <img class="hidden lg:block h-8 w-auto" src="/default-monochrome-white.svg" alt="Soundboard">
+                    <img class="block lg:hidden h-8 w-auto cursor-pointer" src="/favicon-32x32.png" alt="Soundboard" onclick="window.location='https://thatsoundboard.com'" draggable="false">
+                    <img class="hidden lg:block h-8 w-auto cursor-pointer" src="/default-monochrome-white.svg" alt="Soundboard" onclick="window.location='https://thatsoundboard.com'" draggable="false">
                     </div>
                     <div class="hidden sm:block sm:ml-6">
                     <div class="flex space-x-4">
@@ -163,7 +163,7 @@
         </menu>
 
 
-        
+
         <script>
             const copyToClipboard = str => {
             if (navigator && navigator.clipboard && navigator.clipboard.writeText)
