@@ -22,6 +22,7 @@
         <!-- Resources -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdn.jsdelivr.net/npm/flawcralib@1.0.8/dist/main.js"></script>
     </head>
 
     <body class="antialiased dark">
@@ -196,7 +197,7 @@
 
                     // Add the share link to the menu
                     document.getElementById('shareButton').onclick = () => {
-                        copyToClipboard(soundUrl);
+                        FlawCraLIB.copyTextToClipboard(soundUrl);
                         showNotification('Copied to clipboard!', 'The share link has been copied to your clipboard.');	// Show notification
                     };
 
