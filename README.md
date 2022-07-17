@@ -23,6 +23,8 @@ Each user can create a soundboard, add sounds to it and share them with friends.
 - [ ] Ability to create private sounds / soundboards
 - [ ] Ability to create soundboards with a password
 - [ ] Discord bot that plays sounds from the soundboard
+- [ ] Record sounds within discord with the bot
+- [ ] Online sound editor (cropping / extracting)
 
 
 ## Contributing
