@@ -22,7 +22,7 @@ Prank your friends
                 <div>
                     <ul role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                         @foreach ($user->sounds as $sound)
-                        <li id="sound-{{ $user->id }}-{{ $sound }}" class="col-span-1 bg-white dark:bg-slate-700 rounded-lg shadow cursor-pointer" onclick="new Audio('{{ $soundLink }}/{{ $user->id }}/{{ $sound }}').play()">
+                        <li id="sound-{{ $user->id }}-{{ $sound }}" class="col-span-1 bg-white dark:bg-slate-700 rounded-lg shadow cursor-pointer" onclick="playSound('{{ $soundLink }}','{{ $user->id }}','{{ $sound }}')">
                             <div class="w-full flex items-center justify-between p-6 space-x-6">
                                 <div class="flex-1 truncate">
                                     <div class="justify-center text-center"><i class="fa-duotone fa-play"></i></div>

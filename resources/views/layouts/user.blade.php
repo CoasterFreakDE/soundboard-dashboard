@@ -58,13 +58,16 @@
                     </div>
                     </div>
                 </div>
+
                 <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                    <button type="button" onclick='toggleSoundList()' class="p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+                        <span class="sr-only">View sounds</span>
+                        <i class="fa-solid fa-waveform-lines"></i>
+                    </button>
+
                     <button type="button" class="p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
-                    <span class="sr-only">View notifications</span>
-                    <!-- Heroicon name: outline/bell -->
-                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                    </svg>
+                        <span class="sr-only">View notifications</span>
+                        <i class="fa-solid fa-bell"></i>
                     </button>
 
                     <!-- Profile dropdown -->
@@ -163,9 +166,35 @@
             </div>
         </menu>
 
+        <div id="playingsounds" class="hidden fixed bottom-0 left-0 w-full flex flex-col">
+            <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                    <div class="shadow overflow-hidden border-b border-gray-200 dark:border-gray-900 sm:rounded-lg">
+                        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-900">
+                            <thead class="bg-white dark:bg-slate-700">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 dark:text-white uppercase tracking-wider">Sound</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 dark:text-white uppercase tracking-wider">Progress</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 dark:text-white uppercase tracking-wider">Volume<input id="mastervolume" class="w-full bg-gray-200 rounded-lg h-2.5 dark:bg-gray-600" type="range" min="0" max="100" value="50"></th>
+                                    <th scope="col" class="px-6 py-3 text-right">
+                                        <a onclick="stopAllSounds()" class="cursor-pointer"><i class="fa-solid fa-stop"></i></a>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
 
         <script>
+            let playingSounds = [];
+
             if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
                 changeTheme("dark");
             }
@@ -186,6 +215,14 @@
                 }
             }
 
+            if(localStorage.getItem("thatsoundboard:globalvolume")) {
+                document.getElementById('mastervolume').value = localStorage.getItem("thatsoundboard:globalvolume");
+            }
+
+            if(localStorage.getItem("thatsoundboard:soundmenu") == "true") {
+                document.getElementById("playingsounds").classList.remove("hidden");
+            }
+
             document.addEventListener('scroll', event => {
                 document.getElementById('soundmenu').classList.add('hidden');
             });
@@ -195,7 +232,7 @@
             });
 
             document.addEventListener('contextmenu', event => {
-                var path = event.path || (event.composedPath && event.composedPath());
+                const path = event.path || (event.composedPath && event.composedPath());
                 // Test if event.path contains a li element with an id that starts with sound-
                 if (path.some(element => element.id && element.id.startsWith('sound-'))) {
                     event.preventDefault();
@@ -234,7 +271,7 @@
                 document.getElementById('notification-title').innerText = title;
                 document.getElementById('notification-message').innerText = message;
 
-                var notification = document.getElementById('notification');
+                const notification = document.getElementById('notification');
                 notification.classList.remove('hidden');
                 setTimeout(function() {
                     notification.classList.remove('transition', 'ease-in', 'duration-100');
@@ -267,9 +304,109 @@
             }
             document.addEventListener('contextmenu', event => event.preventDefault());
 
+            function toggleSoundList() {
+                const el = document.getElementById("playingsounds");
+                el.classList.toggle("hidden");
+                localStorage.setItem('thatsoundboard:soundmenu', !el.classList.contains("hidden"));
+            }
 
+            function playSound(soundLink, userId, soundName) {
+                let audio = new Audio(`${soundLink}/${userId}/${soundName}`);
+                const UUID = uuidv4();
+                audio.addEventListener('ended', event => {
+                    if(!audio.paused) audio.pause();
+                    audio = null;
+                    document.getElementById(UUID).remove();
+                    playingSounds = playingSounds.filter(singleSound => singleSound.UUID !== UUID);
+                });
+                audio.addEventListener('loadedmetadata', event => {
+                    const tr = document.createElement('tr');
+                    tr.classList.add('bg-white', 'dark:bg-slate-700');
+                    tr.setAttribute("id", UUID);
 
-            
+                    const sound = document.createElement('td');
+                    sound.classList.add('px-6', 'py-4', 'text-sm', 'font-medium', 'text-gray-500');
+                    if(soundName.length > 4) sound.innerText = soundName.substring(0,4)+"...";
+                    else sound.innerText = soundName;
+
+                    tr.appendChild(sound);
+
+                    const progContainer = document.createElement('td');
+                    progContainer.classList.add('px-6', 'py-4', 'whitespace-nowrap', 'text-sm', 'text-gray-500');
+                    const progress = document.createElement('input');
+                    progress.classList.add('w-full', 'bg-gray-200', 'rounded-lg', 'h-2.5', 'dark:bg-gray-600', 'prog-slider');
+                    progress.setAttribute('type','range');
+                    progress.setAttribute('min','0');
+                    progress.setAttribute('max',''+audio.duration);
+                    progress.setAttribute('value','0');
+                    progress.addEventListener('input', event => {
+                        if(audio) audio.currentTime = event.target.value;
+                    });
+                    progContainer.appendChild(progress);
+                    tr.appendChild(progContainer);
+
+                    const volContainer = document.createElement('td');
+                    volContainer.classList.add('px-6', 'py-4', 'whitespace-nowrap', 'text-sm', 'text-gray-500');
+                    const volume = document.createElement('input');
+                    volume.classList.add('w-full', 'bg-gray-200', 'rounded-lg', 'h-2.5', 'dark:bg-gray-600', 'vol-slider');
+                    volume.setAttribute('type','range');
+                    volume.setAttribute('min','0');
+                    volume.setAttribute('max','100');
+                    volume.setAttribute('value',''+document.getElementById('mastervolume').value);
+                    volume.addEventListener('input', event => {
+                        if(audio) audio.volume = event.target.value/100;
+                    });
+                    volContainer.appendChild(volume);
+                    tr.appendChild(volContainer);
+
+                    const stop = document.createElement('td');
+                    stop.classList.add('px-6', 'py-4', 'whitespace-nowrap', 'text-right', 'text-sm', 'font-medium');
+                    const stopBtn = document.createElement('a');
+                    stopBtn.classList.add('cursor-pointer');
+                    stopBtn.addEventListener('click', event => {
+                        audio.pause();
+                        audio = null;
+                        document.getElementById(UUID).remove();
+                        playingSounds = playingSounds.filter(singleSound => singleSound.UUID !== UUID);
+                    });
+                    const stopIcon = document.createElement('i');
+                    stopIcon.classList.add('fa-solid', 'fa-stop');
+                    stopBtn.appendChild(stopIcon);
+                    stop.appendChild(stopBtn);
+                    tr.appendChild(stop);
+
+                    audio.addEventListener('timeupdate', event => {
+                        progress.value = event.target.currentTime
+                    });
+
+                    audio.volume = document.getElementById('mastervolume').value/100;
+
+                    document.querySelector('#playingsounds tbody').appendChild(tr);
+                    playingSounds.push({UUID: UUID, audioEl: audio});
+                    audio.play();
+                });
+            }
+
+            document.getElementById('mastervolume').addEventListener('input', event => {
+                for(const sound of playingSounds) {
+                    sound.audioEl.volume = event.target.value/100;
+                    document.getElementById(sound.UUID).querySelector(".vol-slider").value = event.target.value;
+                }
+                localStorage.setItem("thatsoundboard:globalvolume",event.target.value);
+            });
+
+            function stopAllSounds() {
+                for(const sound of playingSounds) {
+                    sound.audioEl.dispatchEvent(new CustomEvent('ended', {}));
+                }
+            }
+
+            function uuidv4() {
+                return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                    const r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+                    return v.toString(16);
+                });
+            }
         </script>
     </body>
 </html>
