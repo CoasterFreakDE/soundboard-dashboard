@@ -128,7 +128,7 @@
                 From: "opacity-100"
                 To: "opacity-0"
             -->
-            <div id="notification" class="max-w-sm w-full bg-white shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2">
+            <div id="notification" class="max-w-sm w-full bg-white shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2 hidden">
             <div class="p-4">
                 <div class="flex items-start">
                     <div class="flex-shrink-0">
@@ -235,16 +235,22 @@
                 document.getElementById('notification-message').innerText = message;
 
                 var notification = document.getElementById('notification');
-                notification.classList.remove('transition', 'ease-in', 'duration-100');
-                notification.classList.add('transition', 'ease-out', 'duration-300');
-                notification.classList.remove('translate-y-2', 'opacity-0', 'sm:translate-y-0', 'sm:translate-x-2');
-                notification.classList.add('translate-y-0', 'opacity-100', 'sm:translate-x-0');
+                notification.classList.remove('hidden');
                 setTimeout(function() {
-                    notification.classList.remove('transition', 'ease-out', 'duration-300');
-                    notification.classList.add('transition', 'ease-in', 'duration-100');
-                    notification.classList.remove('translate-y-0', 'opacity-100', 'sm:translate-x-0');
-                    notification.classList.add('translate-y-2', 'opacity-0', 'sm:translate-y-0', 'sm:translate-x-2');
-                }, 1500);
+                    notification.classList.remove('transition', 'ease-in', 'duration-100');
+                    notification.classList.add('transition', 'ease-out', 'duration-300');
+                    notification.classList.remove('translate-y-2', 'opacity-0', 'sm:translate-y-0', 'sm:translate-x-2');
+                    notification.classList.add('translate-y-0', 'opacity-100', 'sm:translate-x-0');
+                    setTimeout(function() {
+                        notification.classList.remove('transition', 'ease-out', 'duration-300');
+                        notification.classList.add('transition', 'ease-in', 'duration-100');
+                        notification.classList.remove('translate-y-0', 'opacity-100', 'sm:translate-x-0');
+                        notification.classList.add('translate-y-2', 'opacity-0', 'sm:translate-y-0', 'sm:translate-x-2');
+                        setTimeout(function() {
+                            notification.classList.add('hidden');
+                        }, 100);
+                    }, 1500);
+                }, 100);
             }
 
             function toggleMenu() {
